@@ -55,7 +55,11 @@ function App() {
   // 2. STAN UŻYTKOWNIKA (NOWOŚĆ)
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("myUser");
-    return savedUser ? JSON.parse(savedUser) : null; // null oznacza "niezalogowany"
+
+    // jeśli jest w localStorage, użyj go, w przeciwnym razie ustaw domyślnego użytkownika
+    return savedUser
+      ? JSON.parse(savedUser)
+      : { id: 1, name: "Default User", email: "default@example.com" }; 
   });
 
   // --- EFEKTY ---
@@ -99,7 +103,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* :nazwaKategorii to zmienna - złapie cokolwiek wpiszesz po ukośniku */}
-        <Route path="/shop/produkt/:productId" element={<ProductPage />} />
+        <Route path="/shop/produkt/:productId" element={<ProductPage user={user} />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/kategoria/:nazwaKategorii" element={<CategoryPage />} />
         
@@ -126,7 +130,6 @@ function App() {
           } 
         />
 
-        {/* --- NOWE TRASY --- */}
         <Route 
           path="/logowanie" 
           element={<LoginPage handleLogin={handleLogin} />} 

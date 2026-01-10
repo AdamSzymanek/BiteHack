@@ -1,6 +1,8 @@
 import ProductCard from "./ProductCard.jsx";
 import "./shop.css";
 import productImg from "./assets/product.png";
+import "./ProductGrid.css"
+import Select from 'react-select'
 
 const products = [
   { id: 1, title: "Koszulka", price: 99, image: productImg },
@@ -17,7 +19,33 @@ const products = [
 
 function ProductGrid() {
   console.log("Renderuje shop")
+  // Trzeba sfetchować typy z bazki
+  const options = [
+    { value: 'chocolate', label: 'Koszulka' },
+    { value: 'strawberry', label: 'Bluza' },
+    { value: 'vanilla', label: 'Buty' }
+  ]
+
   return (
+    <div>
+      
+     <div className="filters-header">
+        <div>
+            <Select
+              defaultValue={[options[2], options[3]]}
+              isMulti
+              name="colors"
+              options={options}
+              className="basic-multi-select"
+              classNamePrefix="select"
+            />
+        </div>
+        <div>
+          <span>Sortuj: </span>
+          <button onClick={() => onSort("asc")}>Cena rosnąco</button>
+          <button onClick={() => onSort("desc")}>Cena malejąco</button>
+        </div>
+      </div>
     <div className="product-grid">
       {products.map(product => (
         <ProductCard
@@ -29,6 +57,7 @@ function ProductGrid() {
         />
       ))}
     </div>
+  </div>
   );
 }
 

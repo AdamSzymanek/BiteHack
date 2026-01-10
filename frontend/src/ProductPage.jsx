@@ -2,9 +2,11 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 import './ProductPage.css';
 import ReactStars from "react-rating-stars-component";
+import productImg from './assets/product.png';
+import { useNavigate } from 'react-router-dom';
 
 
-const ProductPage = () => {
+const ProductPage = ({user}) => {
   const { productId } = useParams();
 
   // 🔧 Symulacja danych z backendu
@@ -13,10 +15,11 @@ const ProductPage = () => {
     name: "Koszulka",
     category: "Odzież",
     price: 99.99,
-    image: "https://via.placeholder.com/400",
+    image: productImg,
     isInStock: true,
   };
 
+    const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
     const [rating, setRating] = useState(4);  // aktualna ocena
     const maxRating = 5;                      // maksymalna liczba gwiazdek
@@ -52,7 +55,14 @@ const ProductPage = () => {
   };
 
   const handleAddToFavorites = () => {
-    console.log('Dodano do ulubionych:', product.id);
+    if (!user) {
+        // alert("Musisz się zalogować, aby dodać produkt do ulubionych!");
+        // Możesz też przekierować na stronę logowania
+        navigate('/logowanie');
+        return;
+    }
+    // console.log('Dodano do ulubionych:', product.id);
+
   };
 
   return (
