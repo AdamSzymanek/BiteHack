@@ -20,7 +20,7 @@ const HomePage = () => (
   </div>
 );
 
-// 2. Strona Kategorii (uniwersalna dla Title_1, Title_2 itd.)
+
 const CategoryPage = () => {
   const { nazwaKategorii } = useParams(); // To wyciąga końcówkę z adresu URL
   return (
@@ -39,8 +39,18 @@ const CartPage = () => (
   </div>
 );
 
+const ShopPage = () => {
+  console.log("render shop page");
+  return (
+      <div>
+        <ProductGrid />
+      </div>
+  )
+}
+
 // --- GŁÓWNA APLIKACJA ---
 function App() {
+  console.log("main app")
   return (
     <div>
       <Header />
@@ -51,12 +61,10 @@ function App() {
         
         {/* :nazwaKategorii to zmienna - złapie cokolwiek wpiszesz po ukośniku */}
         <Route path="/kategoria/:nazwaKategorii" element={<CategoryPage />} />
-        
         <Route path="/koszyk" element={<CartPage />} />
+        <Route path="/shop" element={<ShopPage />} />
       </Routes>
-    <div>
-      <ProductGrid />
-    </div>
+
     </div>
 
   )

@@ -7,10 +7,12 @@ import { Link } from 'react-router-dom';
 const Header = () => {
   const menuItems = [
     // Dodałem pole 'path', żebyś wiedział gdzie dany link prowadzi
-    { id: 1, label: 'TITLE_1 (Special)', path: '/kategoria/title-1', isSpecial: true },
-    { id: 2, label: 'TITLE_2', path: '/kategoria/title-2' },
-    { id: 3, label: 'TITLE_3', path: '/kategoria/title-3' },
-    { id: 4, label: 'TITLE_4', path: '/kategoria/title-4' },
+    // { id: 1, label: 'TITLE_1 (Special)', path: '/kategoria/title-1', isSpecial: true },
+    { id: 1, label: 'Sklep', path: '/shop', isSpecial: true },
+    { id: 2, label: 'Rezerwacje', path: '/kategoria/title-2' },
+    { id: 3, label: 'O nas', path: '/kategoria/title-3' },
+    // { id: 4, label: 'TITLE_4', path: '/kategoria/title-4' },
+    
   ];
 
   return (
