@@ -6,8 +6,8 @@ import Header from './Header';
 import ProductGrid from './ProductGrid';
 import CartPage from './CartPage';
 import WishlistPage from './WishlistPage';
-import LoginPage from './LoginPage';     // <--- NOWY IMPORT
-import ProfilePage from './ProfilePage'; // <--- NOWY IMPORT
+import LoginPage from './LoginPage';
+import ProfilePage from './ProfilePage';
 import productImg from "./assets/product.png"; 
 
 const HomePage = () => (
@@ -36,7 +36,7 @@ const ShopPage = () => (
 
 function App() {
   
-  // 1. DANE (Koszyk, Ulubione, Rabat - bez zmian)
+  // 1. DANE
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem("myCart");
     return saved ? JSON.parse(saved) : [{ id: 1, title: "Koszulka Sportowa", price: 99.00, image: productImg, quantity: 1 }];
@@ -52,11 +52,9 @@ function App() {
     return saved ? JSON.parse(saved) : 0;
   });
 
-  // 2. STAN UŻYTKOWNIKA (NOWOŚĆ)
+  // 2. STAN UŻYTKOWNIKA
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("myUser");
-
-    // jeśli jest w localStorage, użyj go, w przeciwnym razie ustaw domyślnego użytkownika
     return savedUser
       ? JSON.parse(savedUser)
       : { id: 1, name: "Default User", email: "default@example.com" }; 
@@ -67,43 +65,98 @@ function App() {
   useEffect(() => localStorage.setItem("myDiscount", JSON.stringify(discountRate)), [discountRate]);
   useEffect(() => localStorage.setItem("myWishlist", JSON.stringify(wishlistItems)), [wishlistItems]);
   
-  // Zapisujemy usera do pamięci
   useEffect(() => {
     if (user) {
       localStorage.setItem("myUser", JSON.stringify(user));
     } else {
-      localStorage.removeItem("myUser"); // Usuwamy z pamięci jak wyloguje
+      localStorage.removeItem("myUser");
     }
   }, [user]);
 
+  // --- OBLICZENIA POMOCNICZE ---
+  const totalItemsInCart = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
   // --- FUNKCJE ---
+  
+  const addToCart = (product, quantityToAdd) => {
+    setCartItems(prevItems => {
+      const productId = Number(product.id);
+      
+      const existingItem = prevItems.find(item => Number(item.id) === productId);
+      
+      if (existingItem) {
+        // Zabezpieczenie na poziomie App (opcjonalne, ale dobre)
+        const newQuantity = existingItem.quantity + quantityToAdd;
+        if (newQuantity > 10) {
+            // Możemy tutaj zwrócić return prevItems, ale lepiej obsłużyć to w ProductPage
+            // Tutaj po prostu ucinamy do 10 jeśli ktoś obejdzie UI
+            return prevItems.map(item => 
+                Number(item.id) === productId 
+                  ? { ...item, quantity: 10 } 
+                  : item
+              );
+        }
+
+        return prevItems.map(item => 
+          Number(item.id) === productId 
+            ? { ...item, quantity: item.quantity + quantityToAdd } 
+            : item
+        );
+      } else {
+        return [...prevItems, { ...product, id: productId, quantity: quantityToAdd }];
+      }
+    });
+  };
+
   const removeFromCart = (id) => setCartItems(p => p.filter(i => i.id !== id));
+  
+  const clearCart = () => setCartItems([]);
+
   const updateQuantity = (id, q) => q >= 1 && setCartItems(p => p.map(i => i.id === id ? { ...i, quantity: q } : i));
+  
+  const addToWishlist = (product) => {
+    setWishlistItems(prevItems => {
+      const productId = Number(product.id);
+      const exists = prevItems.find(item => Number(item.id) === productId);
+      if (exists) return prevItems;
+      return [...prevItems, { ...product, id: productId }];
+    });
+  };
+
   const removeFromWishlist = (id) => setWishlistItems(p => p.filter(i => i.id !== id));
 
-  // Funkcje logowania/wylogowania
   const handleLogin = (userData) => {
-    setUser(userData); // Ustawiamy usera
+    setUser(userData);
   };
 
   const handleLogout = () => {
-    setUser(null); // Czyścimy usera
-    setDiscountRate(0); // Opcjonalnie: resetujemy rabat po wylogowaniu
+    setUser(null);
+    setDiscountRate(0);
   };
 
   return (
     <div>
-      {/* Przekazujemy 'user' do nagłówka, żeby wiedział jaką ikonkę pokazać */}
       <Header 
-        cartCount={cartItems.length} 
+        cartCount={totalItemsInCart} 
         wishlistCount={wishlistItems.length}
         user={user} 
       /> 
       
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* :nazwaKategorii to zmienna - złapie cokolwiek wpiszesz po ukośniku */}
-        <Route path="/shop/produkt/:productId" element={<ProductPage user={user} />} />
+        
+        <Route 
+          path="/shop/produkt/:productId" 
+          element={
+            <ProductPage 
+              user={user} 
+              addToCart={addToCart} 
+              addToWishlist={addToWishlist}
+              cartItems={cartItems} // <--- WAŻNE: Przekazujemy koszyk, żeby sprawdzać limity
+            />
+          } 
+        />
+        
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/kategoria/:nazwaKategorii" element={<CategoryPage />} />
         
@@ -116,6 +169,7 @@ function App() {
               updateQuantity={updateQuantity}
               discountRate={discountRate}
               setDiscountRate={setDiscountRate}
+              clearCart={clearCart}
             />
           } 
         />
@@ -126,6 +180,7 @@ function App() {
             <WishlistPage 
               wishlistItems={wishlistItems} 
               removeFromWishlist={removeFromWishlist}
+              addToCart={addToCart}
             />
           } 
         />
