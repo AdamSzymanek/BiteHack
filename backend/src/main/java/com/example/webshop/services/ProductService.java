@@ -33,7 +33,7 @@ public class ProductService {
                 .getResultList();
 
         if (products.isEmpty()) {
-            throw new IllegalArgumentException("Product has not been found");
+            return null;
         }
 
         return products.getFirst();
@@ -88,8 +88,16 @@ public class ProductService {
     }
 
     @Transactional
-    public void addProduct(String name, Categories category, BigDecimal price, long amount, String imagePath) { //TODO: Refractor
-        Product newProduct = new Product(name,category, price, amount, imagePath);
+    public void addProduct(String name, String categoryName, BigDecimal price, long amount, String imagePath) {
+        List<Category> categories = entityManager.createQuery("select c from Categories c where c.name=:name", Category.class)
+                .setParameter("name",categoryName)
+                .getResultList();
+
+        if (categories.isEmpty()) {
+            return;
+        }
+
+        Product newProduct = new Product(name,categories.getFirst(), price, amount, imagePath);
         entityManager.persist(newProduct);
     }
 

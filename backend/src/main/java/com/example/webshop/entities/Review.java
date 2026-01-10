@@ -22,6 +22,9 @@ public class Review {
     @Column(name = "text")
     private String text;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     public Review() {
     }
 
@@ -41,6 +44,10 @@ public class Review {
         return text;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
     public void setProduct(Product product) {
         this.product = product;
     }
@@ -51,5 +58,9 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 }
