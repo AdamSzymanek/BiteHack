@@ -27,15 +27,17 @@ const CategoryPage = () => {
   );
 };
 
-const ShopPage = () => (
+const ShopPage = ({searchTerm}) => (
   <div>
     <h2 style={{ textAlign: 'center', marginTop: '20px' }}>Pełna Oferta</h2>
-    <ProductGrid />
+    <ProductGrid searchTerm={searchTerm} />
   </div>
 );
 
 function App() {
   
+  const [searchTerm, setSearchTerm] = useState("");
+
   // 1. DANE (Koszyk, Ulubione, Rabat - bez zmian)
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem("myCart");
@@ -98,13 +100,14 @@ function App() {
         cartCount={cartItems.length} 
         wishlistCount={wishlistItems.length}
         user={user} 
+        setSearchTerm={setSearchTerm}
       /> 
       
       <Routes>
         <Route path="/" element={<HomePage />} />
         {/* :nazwaKategorii to zmienna - złapie cokolwiek wpiszesz po ukośniku */}
         <Route path="/shop/produkt/:productId" element={<ProductPage user={user} />} />
-        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/shop" element={<ShopPage  searchTerm={searchTerm}/>} />
         <Route path="/kategoria/:nazwaKategorii" element={<CategoryPage />} />
         
         <Route 

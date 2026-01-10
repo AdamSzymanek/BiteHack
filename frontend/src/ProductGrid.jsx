@@ -19,7 +19,7 @@ const products = [
 ;
 
 
-function ProductGrid() {
+function ProductGrid({ searchTerm }) {
   console.log("Renderuje shop")
   // Trzeba sfetchować typy z bazki
   const options = useMemo(() => {
@@ -41,6 +41,12 @@ function ProductGrid() {
   const visibleProducts = useMemo(() => {
     let result = [...products];
 
+    if (searchTerm) {
+      result = result.filter(p =>
+        p.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
     // FILTR
     if (selectedTypes.length > 0) {
       const allowedTypes = selectedTypes.map(o => o.value);
@@ -55,7 +61,7 @@ function ProductGrid() {
     }
 
     return result;
-  }, [selectedTypes, sortOrder]);
+  }, [selectedTypes, sortOrder,searchTerm]);
 
   return (
     <div>

@@ -2,14 +2,23 @@ import React from 'react';
 import './Header.css';
 import { FiSearch, FiUser, FiHeart, FiShoppingBag } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { useRef } from "react";
 
 // Dodajemy prop 'user'
-const Header = ({ cartCount, wishlistCount, user }) => {
+const Header = ({ cartCount, wishlistCount, user, setSearchTerm }) => {
   const menuItems = [
     { id: 1, label: 'Sklep', path: '/shop', isSpecial: true },
     { id: 2, label: 'Rezerwacje', path: '/kategoria/title-2' },
     { id: 3, label: 'O nas', path: '/kategoria/title-3' },
   ];
+
+  const handleSearch = () => {
+    const value = inputRef.current.value;
+    setSearchTerm(value);
+    console.log(value);
+  };
+  const inputRef = useRef(null);
+
 
   return (
     <header className="navbar">
@@ -35,8 +44,15 @@ const Header = ({ cartCount, wishlistCount, user }) => {
 
       <div className="navbar-right">
         <div className="search-bar">
-          <input type="text" placeholder="Szukaj..." />
-          <FiSearch className="search-icon" />
+          <input 
+          type="text" 
+          placeholder="Szukaj..."
+          ref={inputRef}
+          />
+          <FiSearch 
+          className="search-icon"
+          onClick={handleSearch}
+ />
         </div>
 
         <div className="user-actions">
