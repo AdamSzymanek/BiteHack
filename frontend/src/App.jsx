@@ -74,7 +74,7 @@ function App() {
     if (user) {
       sessionStorage.setItem("myUser", JSON.stringify(user));
     } else {
-      localStorage.removeItem("myUser");
+      sessionStorage.removeItem("myUser");
     }
   }, [user]);
 

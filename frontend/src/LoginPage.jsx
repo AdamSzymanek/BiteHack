@@ -20,26 +20,34 @@ const LoginPage = ({ handleLogin }) => {
   const onLogin = async (e) => {
     e.preventDefault();
     try {
-      // Zmieniony endpoint na /login (dostosuj do swojego API)
-      const response = await fetch('http://localhost:8080/user/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          login: formData.login,
-          password: formData.password
-        })
+      // Pobieramy całą listę użytkowników z bazy
+      const response = await fetch('http://localhost:8080/user/users', {
+        method: 'GET',
+        headers: { 'accept': '*/*' }
       });
 
-      if (!response.ok) throw new Error('Błędny login lub hasło');
+      if (!response.ok) throw new Error('Błąd podczas pobierania bazy użytkowników');
 
-      const data = await response.json();
-      console.log('Zalogowano pomyślnie:', data);
-      
-      handleLogin(data); // Przekazujemy dane użytkownika z serwera
-      navigate('/profil');
+      const allUsers = await response.json();
+
+      // Szukamy użytkownika, który pasuje do wpisanego loginu i hasła
+      const foundUser = allUsers.find(u => 
+        u.login === formData.login && u.password === formData.password
+      );
+
+      if (foundUser) {
+        console.log('Zalogowano pomyślnie:', foundUser);
+        // Przekazujemy pełny obiekt użytkownika do stanu globalnego
+        handleLogin(foundUser); 
+        navigate('/profil');
+      } else {
+        // Jeśli nie znaleziono dopasowania
+        alert('Nieprawidłowy login lub hasło!');
+      }
+
     } catch (error) {
       console.error('Błąd logowania:', error);
-      alert('Nie udało się zalogować. Sprawdź dane.');
+      alert('Problem z połączeniem z serwerem.');
     }
   };
 

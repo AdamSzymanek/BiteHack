@@ -62,7 +62,7 @@ const ProductGrid = ({ categorySlug, searchTerm }) => {
 
   // EFEKT: Jeśli zmienią się filtry, wróć do strony 1
   useEffect(() => {
-    setCurrentPage(1);
+    setCurrentPage(1); 
   }, [selectedTypes, categorySlug]);
 
   const visibleProducts = useMemo(() => {
