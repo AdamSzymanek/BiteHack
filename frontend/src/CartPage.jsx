@@ -3,13 +3,12 @@ import './Cart.css';
 import { FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
-// Odbieramy discountRate i setDiscountRate z propsów
-const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, setDiscountRate }) => {
+// Odbieramy clearCart z propsów
+const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, setDiscountRate, clearCart }) => {
   
   const [promoCode, setPromoCode] = useState("");     
   const [promoMessage, setPromoMessage] = useState(""); 
 
-  // Jeśli po odświeżeniu strony discountRate jest > 0, wyświetl od razu info
   useEffect(() => {
     if (discountRate > 0) {
       setPromoMessage("Kod aktywny! Twoje zniżki są zapisane.");
@@ -18,18 +17,25 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
 
   // Obliczenia
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const discountAmount = subtotal * discountRate; // Teraz korzystamy z propsa
+  const discountAmount = subtotal * discountRate; 
   const totalCost = subtotal - discountAmount;
 
   // Funkcja sprawdzająca kod
   const handleApplyPromo = () => {
     if (promoCode === "BITEHACK2026") {
-      setDiscountRate(0.30); // Zapisuje się w App.jsx i w LocalStorage
+      setDiscountRate(0.30); 
       setPromoMessage("Kod przyjęty! Rabat 30% naliczony.");
     } else {
-      setDiscountRate(0); // Resetuje w App.jsx
+      setDiscountRate(0); 
       setPromoMessage("Nieprawidłowy kod rabatowy.");
     }
+  };
+
+  // NOWE: Obsługa czyszczenia koszyka z potwierdzeniem
+  const handleClearCart = () => {
+      if (window.confirm("Czy na pewno chcesz usunąć wszystkie produkty z koszyka?")) {
+          clearCart();
+      }
   };
 
   if (cartItems.length === 0) {
@@ -43,7 +49,17 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
 
   return (
     <div className="cart-container">
-      <h1 className="cart-title">TWÓJ KOSZYK ({cartItems.length})</h1>
+      
+      {/* NAGŁÓWEK KOSZYKA Z PRZYCISKIEM USUWANIA */}
+      <div className="cart-header">
+        <h1 className="cart-title">TWÓJ KOSZYK ({cartItems.reduce((a, c) => a + c.quantity, 0)})</h1>
+        
+        {/* Przycisk czyszczenia */}
+        <button className="clear-cart-btn" onClick={handleClearCart}>
+            <FiTrash2 style={{ marginRight: '5px', verticalAlign: 'middle' }} />
+            Wyczyść koszyk
+        </button>
+      </div>
       
       <div className="cart-layout">
         
@@ -66,7 +82,7 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
                       onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                     >
                       {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                         <option key={n} value={n}>{n}</option>
+                          <option key={n} value={n}>{n}</option>
                       ))}
                     </select>
                   </div>
@@ -92,7 +108,6 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
               <span>{subtotal.toFixed(2)} PLN</span>
             </div>
 
-            {/* Wyświetl rabat tylko jeśli jest naliczony */}
             {discountRate > 0 && (
               <div className="summary-row" style={{ color: 'green', fontWeight: 'bold' }}>
                 <span>Rabat ({discountRate * 100}%):</span>

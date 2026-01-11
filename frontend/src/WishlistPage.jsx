@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FiTrash2, FiShoppingBag } from 'react-icons/fi';
-import './Wishlist.css'; // Zaraz stworzymy ten plik stylów
+import './Wishlist.css';
 
-const WishlistPage = ({ wishlistItems, removeFromWishlist }) => {
+// Dodajemy addToCart do propsów
+const WishlistPage = ({ wishlistItems, removeFromWishlist, addToCart }) => {
 
   if (wishlistItems.length === 0) {
     return (
@@ -27,7 +28,6 @@ const WishlistPage = ({ wishlistItems, removeFromWishlist }) => {
             <div className="wishlist-image-wrapper">
               <img src={item.image} alt={item.title} />
               
-              {/* Przycisk usuwania (X lub kosz) */}
               <button 
                 className="remove-wishlist-btn" 
                 onClick={() => removeFromWishlist(item.id)}
@@ -42,9 +42,11 @@ const WishlistPage = ({ wishlistItems, removeFromWishlist }) => {
               <h3>{item.title}</h3>
               <p className="wishlist-price">{item.price} PLN</p>
               
-              {/* Opcjonalnie: Przycisk "Dodaj do koszyka" bezpośrednio stąd */}
-              {/* To możemy oprogramować później, na razie tylko wygląd */}
-              <button className="move-to-cart-btn">
+              {/* Tutaj dodajemy obsługę kliknięcia */}
+              <button 
+                className="move-to-cart-btn"
+                onClick={() => addToCart(item, 1)} // Dodajemy 1 sztukę
+              >
                 <FiShoppingBag style={{ marginRight: '8px' }}/> 
                 Dodaj do koszyka
               </button>
