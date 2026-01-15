@@ -48,10 +48,10 @@ Solid REST API handling requests from the frontend.
 
 The project was realized by the team:
 
-1.  [Name and Surname]
-2.  [Name and Surname]
-3.  [Name and Surname]
-4.  [Name and Surname]
+1.  Adam Szymanek
+2.  Franciszek Jawor
+3.  Mateusz Ryś
+4.  Jakub Woszczek
 
 ---
-*Project created as part of a hackathon/course assignment.*
+*Project created as part of a hackathon*
