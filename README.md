@@ -1,57 +1,57 @@
-# 🛒 Lokalny Biznes - Platforma E-commerce
+# 🛒 Local Business - E-commerce Platform
 
-## 💡 Idea Projektu
+## 💡 Project Idea
 
-**Lokalny Biznes** to nowoczesna platforma e-commerce stworzona z myślą o wspieraniu lokalnych przedsiębiorców. Projekt łączy intuicyjny interfejs sklepu internetowego z zaawansowanymi technologiami, takimi jak sztuczna inteligencja, aby zapewnić klientom wyjątkowe doświadczenia zakupowe.
+**Local Business** is a modern e-commerce platform designed to support local entrepreneurs. The project combines an intuitive online store interface with advanced technologies, such as artificial intelligence, to provide customers with exceptional shopping experiences.
 
-Platforma umożliwia przeglądanie produktów, zarządzanie koszykiem i ulubionymi, a także interakcję z inteligentnym asystentem zakupowym, który pomaga w doborze odpowiednich towarów.
+The platform allows for browsing products, managing a shopping cart and wishlist, as well as interacting with an intelligent shopping assistant who helps in selecting appropriate items.
 
-## 🚀 Jak to działa?
+## 🚀 How it works?
 
-Aplikacja składa się z dwóch głównych modułów: interfejsu użytkownika (Frontend) oraz serwera zarządzającego danymi (Backend).
+The application consists of two main modules: the user interface (Frontend) and the data management server (Backend).
 
-### Główne Funkcjonalności:
+### Main Features:
 
-*   **🏪 Przeglądanie Oferty:** Dynamiczna siatka produktów z możliwością filtrowania po kategoriach, typach i sortowania po cenie.
-*   **🤖 Asystent AI (Gemini):** Zintegrowany czat z modelem językowym Google Gemini, który doradza klientom i odpowiada na pytania dotyczące asortymentu.
-*   **🛒 Koszyk i Zakupy:** Pełna obsługa procesu zakupowego, dodawanie do koszyka, zarządzanie ilością i sumowanie kosztów.
-*   **❤️ Lista Życzeń:** Możliwość zapisywania ulubionych produktów na później.
-*   **👤 Konto Użytkownika:** System rejestracji i logowania (z walidacją danych) oraz profil użytkownika.
-*   **📱 Responsywność:** Nowoczesny design ("Lokalny Biznes") dostosowany do różnych urządzeń.
+*   **🏪 Product Browsing:** Dynamic product grid with filtering by categories, types, and price sorting.
+*   **🤖 AI Assistant (Gemini):** Integrated chat with the Google Gemini language model, which advises customers and answers questions about the assortment.
+*   **🛒 Cart & Shopping:** Full handling of the purchasing process, adding to cart, managing quantity, and calculating totals.
+*   **❤️ Wishlist:** Ability to save favorite products for later.
+*   **👤 User Account:** Registration and login system (with data validation) and user profile.
+*   **📱 Responsiveness:** Modern design ("Local Business") adapted to various devices.
 
 ---
 
-## 🛠️ Zastosowane Technologie
+## 🛠️ Technologies Used
 
-Projekt został zbudowany w oparciu o podział na **Frontend** i **Backend**, zapewniając skalowalność i przejrzystość kodu.
+The project was built based on a separation between **Frontend** and **Backend**, ensuring scalability and code clarity.
 
-### 🖥️ Frontend (Warstwa Wizualna)
-Aplikacja typu Single Page Application (SPA) nastawiona na wydajność i User Experience.
+### 🖥️ Frontend (Visual Layer)
+Single Page Application (SPA) focused on performance and User Experience.
 *   **Framework:** React 19
-*   **Build Tool:** Vite (dla błyskawicznego ładowania)
+*   **Build Tool:** Vite (for instant loading)
 *   **Routing:** React Router v7
 *   **AI Integration:** Google Generative AI SDK (Gemini Flash model)
 *   **State Management:** React Hooks (useState, useEffect, useMemo) + LocalStorage/SessionStorage
-*   **UI/Styling:** Custom CSS, Responsywny Design
+*   **UI/Styling:** Custom CSS, Responsive Design
 
-### ⚙️ Backend (Serwer i Dane)
-Solidne REST API obsługujące żądania z frontendu.
+### ⚙️ Backend (Server and Data)
+Solid REST API handling requests from the frontend.
 *   **Framework:** Spring Boot 3.5.6
-*   **Język:** Java 24
-*   **Baza Danych:** H2 Database (baza in-memory dla celów deweloperskich/demonstracyjnych)
-*   **Budowanie:** Gradle
-*   **Architektura:** MVC (Model-View-Controller)
+*   **Language:** Java 24
+*   **Database:** H2 Database (in-memory database for development/demonstration purposes)
+*   **Build:** Gradle
+*   **Architecture:** MVC (Model-View-Controller)
 
 ---
 
-## 👥 Autorzy
+## 👥 Authors
 
-Projekt został zrealizowany przez zespół:
+The project was realized by the team:
 
-1.  [Imię i Nazwisko]
-2.  [Imię i Nazwisko]
-3.  [Imię i Nazwisko]
-4.  [Imię i Nazwisko]
+1.  [Name and Surname]
+2.  [Name and Surname]
+3.  [Name and Surname]
+4.  [Name and Surname]
 
 ---
-*Projekt stworzony w ramach hackathonu/zaliczenia.*
+*Project created as part of a hackathon/course assignment.*

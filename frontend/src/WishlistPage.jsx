@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiTrash2, FiShoppingBag } from 'react-icons/fi';
 import './Wishlist.css';
 
-// Dodajemy addToCart do propsów
+
 const WishlistPage = ({ wishlistItems, removeFromWishlist, addToCart }) => {
 
   if (wishlistItems.length === 0) {
@@ -19,17 +19,16 @@ const WishlistPage = ({ wishlistItems, removeFromWishlist, addToCart }) => {
   return (
     <div className="wishlist-container">
       <h1 className="wishlist-title">ULUBIONE ({wishlistItems.length})</h1>
-      
+
       <div className="wishlist-grid">
         {wishlistItems.map((item) => (
           <div key={item.id} className="wishlist-card">
-            
-            {/* Zdjęcie */}
+
             <div className="wishlist-image-wrapper">
               <img src={item.image} alt={item.title} />
-              
-              <button 
-                className="remove-wishlist-btn" 
+
+              <button
+                className="remove-wishlist-btn"
                 onClick={() => removeFromWishlist(item.id)}
                 title="Usuń z ulubionych"
               >
@@ -37,17 +36,16 @@ const WishlistPage = ({ wishlistItems, removeFromWishlist, addToCart }) => {
               </button>
             </div>
 
-            {/* Treść */}
             <div className="wishlist-content">
               <h3>{item.title}</h3>
               <p className="wishlist-price">{item.price} PLN</p>
-              
-              {/* Tutaj dodajemy obsługę kliknięcia */}
-              <button 
+
+
+              <button
                 className="move-to-cart-btn"
-                onClick={() => addToCart(item, 1)} // Dodajemy 1 sztukę
+                onClick={() => addToCart(item, 1)}
               >
-                <FiShoppingBag style={{ marginRight: '8px' }}/> 
+                <FiShoppingBag style={{ marginRight: '8px' }} />
                 Dodaj do koszyka
               </button>
             </div>

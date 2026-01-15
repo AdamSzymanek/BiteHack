@@ -8,7 +8,7 @@ import CartPage from './CartPage';
 import WishlistPage from './WishlistPage';
 import LoginPage from './LoginPage';
 import ProfilePage from './ProfilePage';
-import ContactPage from './ContactPage'; // <--- NOWY IMPORT
+import ContactPage from './ContactPage';
 import productImg from "./assets/product.png"; 
 import GeminiChat from "./GeminiChat.jsx"
 import { node } from 'prop-types';
@@ -42,7 +42,7 @@ function App() {
   
   const [searchTerm, setSearchTerm] = useState("");
 
-  // 1. DANE (Koszyk, Ulubione, Rabat - bez zmian)
+
   const [cartItems, setCartItems] = useState(() => {
     const saved = localStorage.getItem("myCart");
     return saved ? JSON.parse(saved) : [{ id: 1, title: "Koszulka Sportowa", price: 99.00, image: productImg, quantity: 1 }];
@@ -58,14 +58,14 @@ function App() {
     return saved ? JSON.parse(saved) : 0;
   });
 
-  // 2. STAN UŻYTKOWNIKA
+
   const [user, setUser] = useState(() => {
     const savedUser = sessionStorage.getItem("myUser");
     return savedUser
       ? JSON.parse(savedUser) : null; 
   });
 
-  // --- EFEKTY ---
+
   useEffect(() => localStorage.setItem("myCart", JSON.stringify(cartItems)), [cartItems]);
   useEffect(() => localStorage.setItem("myDiscount", JSON.stringify(discountRate)), [discountRate]);
   useEffect(() => localStorage.setItem("myWishlist", JSON.stringify(wishlistItems)), [wishlistItems]);
@@ -78,10 +78,10 @@ function App() {
     }
   }, [user]);
 
-  // --- OBLICZENIA POMOCNICZE ---
+
   const totalItemsInCart = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
-  // --- FUNKCJE ---
+
   
   const addToCart = (product, quantityToAdd) => {
     setCartItems(prevItems => {
@@ -90,7 +90,7 @@ function App() {
       const existingItem = prevItems.find(item => Number(item.id) === productId);
       
       if (existingItem) {
-        // Zabezpieczenie na poziomie App
+
         const newQuantity = existingItem.quantity + quantityToAdd;
         if (newQuantity > 10) {
             return prevItems.map(item => 
@@ -148,7 +148,7 @@ function App() {
       
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* :nazwaKategorii to zmienna - złapie cokolwiek wpiszesz po ukośniku */}
+
         <Route path="/shop" element={<ShopPage  searchTerm={searchTerm}/>} />
         
         <Route 
@@ -158,7 +158,7 @@ function App() {
               user={user} 
               addToCart={addToCart} 
               addToWishlist={addToWishlist}
-              cartItems={cartItems} // <--- WAŻNE: Przekazujemy koszyk, żeby sprawdzać limity
+              cartItems={cartItems}
             />
           } 
         />
@@ -189,7 +189,7 @@ function App() {
           } 
         />
 
-        {/* --- NOWA ŚCIEŻKA KONTAKT --- */}
+
         <Route path="/kontakt" element={<ContactPage />} />
 
         <Route 

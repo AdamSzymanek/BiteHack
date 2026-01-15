@@ -16,11 +16,11 @@ const LoginPage = ({ handleLogin }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // --- FUNKCJA LOGOWANIA ---
+
   const onLogin = async (e) => {
     e.preventDefault();
     try {
-      // Pobieramy całą listę użytkowników z bazy
+
       const response = await fetch('http://localhost:8080/user/users', {
         method: 'GET',
         headers: { 'accept': '*/*' }
@@ -30,18 +30,18 @@ const LoginPage = ({ handleLogin }) => {
 
       const allUsers = await response.json();
 
-      // Szukamy użytkownika, który pasuje do wpisanego loginu i hasła
-      const foundUser = allUsers.find(u => 
+
+      const foundUser = allUsers.find(u =>
         u.login === formData.login && u.password === formData.password
       );
 
       if (foundUser) {
         console.log('Zalogowano pomyślnie:', foundUser);
-        // Przekazujemy pełny obiekt użytkownika do stanu globalnego
-        handleLogin(foundUser); 
+
+        handleLogin(foundUser);
         navigate('/profil');
       } else {
-        // Jeśli nie znaleziono dopasowania
+
         alert('Nieprawidłowy login lub hasło!');
       }
 
@@ -51,7 +51,7 @@ const LoginPage = ({ handleLogin }) => {
     }
   };
 
-  // --- FUNKCJA REJESTRACJI ---
+
   const onRegister = async (e) => {
     e.preventDefault();
     try {
@@ -66,7 +66,7 @@ const LoginPage = ({ handleLogin }) => {
       const data = await response.json();
       console.log('Rejestracja udana:', data);
 
-      // Po rejestracji możemy od razu zalogować użytkownika
+
       handleLogin(data);
       navigate('/profil');
     } catch (error) {
@@ -75,13 +75,13 @@ const LoginPage = ({ handleLogin }) => {
     }
   };
 
-  // --- WIDOK REJESTRACJI ---
+
   if (isRegistering) {
     return (
       <div className="auth-container">
         <div className="auth-box registration-box">
           <h2>ZAREJESTRUJ SIĘ</h2>
-          <form onSubmit={onRegister}> {/* <--- Wywołuje onRegister */}
+          <form onSubmit={onRegister}>
             <div className="input-group"><label>Imię</label><input type="text" name="firstname" required onChange={handleChange} /></div>
             <div className="input-group"><label>Nazwisko</label><input type="text" name="lastname" required onChange={handleChange} /></div>
             <div className="input-group"><label>Kraj</label><input type="text" name="country" required onChange={handleChange} /></div>
@@ -102,12 +102,12 @@ const LoginPage = ({ handleLogin }) => {
     );
   }
 
-  // --- WIDOK LOGOWANIA ---
+
   return (
     <div className="auth-container">
       <div className="auth-box">
         <h2>ZALOGUJ SIĘ</h2>
-        <form onSubmit={onLogin}> {/* <--- Wywołuje onLogin */}
+        <form onSubmit={onLogin}>
           <div className="input-group">
             <label>Login</label>
             <input type="text" name="login" required onChange={handleChange} />

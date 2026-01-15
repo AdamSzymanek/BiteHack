@@ -3,11 +3,11 @@ import './Cart.css';
 import { FiTrash2 } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
-// Odbieramy clearCart z propsów
+
 const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, setDiscountRate, clearCart }) => {
-  
-  const [promoCode, setPromoCode] = useState("");     
-  const [promoMessage, setPromoMessage] = useState(""); 
+
+  const [promoCode, setPromoCode] = useState("");
+  const [promoMessage, setPromoMessage] = useState("");
 
   useEffect(() => {
     if (discountRate > 0) {
@@ -15,27 +15,27 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
     }
   }, [discountRate]);
 
-  // Obliczenia
+
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const discountAmount = subtotal * discountRate; 
+  const discountAmount = subtotal * discountRate;
   const totalCost = subtotal - discountAmount;
 
-  // Funkcja sprawdzająca kod
+
   const handleApplyPromo = () => {
     if (promoCode === "BITEHACK2026") {
-      setDiscountRate(0.30); 
+      setDiscountRate(0.30);
       setPromoMessage("Kod przyjęty! Rabat 30% naliczony.");
     } else {
-      setDiscountRate(0); 
+      setDiscountRate(0);
       setPromoMessage("Nieprawidłowy kod rabatowy.");
     }
   };
 
-  // NOWE: Obsługa czyszczenia koszyka z potwierdzeniem
+
   const handleClearCart = () => {
-      if (window.confirm("Czy na pewno chcesz usunąć wszystkie produkty z koszyka?")) {
-          clearCart();
-      }
+    if (window.confirm("Czy na pewno chcesz usunąć wszystkie produkty z koszyka?")) {
+      clearCart();
+    }
   };
 
   if (cartItems.length === 0) {
@@ -49,21 +49,19 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
 
   return (
     <div className="cart-container">
-      
-      {/* NAGŁÓWEK KOSZYKA Z PRZYCISKIEM USUWANIA */}
+
       <div className="cart-header">
         <h1 className="cart-title">TWÓJ KOSZYK ({cartItems.reduce((a, c) => a + c.quantity, 0)})</h1>
-        
-        {/* Przycisk czyszczenia */}
+
+
         <button className="clear-cart-btn" onClick={handleClearCart}>
-            <FiTrash2 style={{ marginRight: '5px', verticalAlign: 'middle' }} />
-            Wyczyść koszyk
+          <FiTrash2 style={{ marginRight: '5px', verticalAlign: 'middle' }} />
+          Wyczyść koszyk
         </button>
       </div>
-      
+
       <div className="cart-layout">
-        
-        {/* LEWA STRONA */}
+
         <div className="cart-items-section">
           {cartItems.map((item) => (
             <div key={item.id} className="cart-item">
@@ -73,16 +71,16 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
               <div className="item-details">
                 <h3>{item.title}</h3>
                 <p className="item-price-single">{item.price} PLN</p>
-                
+
                 <div className="item-controls">
                   <div className="quantity-selector">
                     <label>Ilość:</label>
-                    <select 
-                      value={item.quantity} 
+                    <select
+                      value={item.quantity}
                       onChange={(e) => updateQuantity(item.id, parseInt(e.target.value))}
                     >
-                      {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                          <option key={n} value={n}>{n}</option>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                        <option key={n} value={n}>{n}</option>
                       ))}
                     </select>
                   </div>
@@ -98,11 +96,10 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
           ))}
         </div>
 
-        {/* PRAWA STRONA */}
         <div className="cart-summary-section">
           <div className="summary-box">
             <h2>PODSUMOWANIE</h2>
-            
+
             <div className="summary-row">
               <span>Wartość produktów:</span>
               <span>{subtotal.toFixed(2)} PLN</span>
@@ -114,7 +111,7 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
                 <span>-{discountAmount.toFixed(2)} PLN</span>
               </div>
             )}
-            
+
             <div className="summary-row total">
               <span>SUMA DO ZAPŁATY</span>
               <span>{totalCost.toFixed(2)} PLN</span>
@@ -122,19 +119,18 @@ const CartPage = ({ cartItems, removeFromCart, updateQuantity, discountRate, set
 
             <button className="checkout-btn">PRZEJDŹ DO KASY</button>
 
-            {/* SEKCJ Z KODEM RABATOWYM */}
             <div className="discount-section">
               <p>Masz kod rabatowy?</p>
               <div className="discount-input-group">
-                <input 
-                  type="text" 
-                  placeholder="Wpisz kod..." 
+                <input
+                  type="text"
+                  placeholder="Wpisz kod..."
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                 />
                 <button onClick={handleApplyPromo}>OK</button>
               </div>
-              {/* Komunikat */}
+
               {promoMessage && (
                 <p className={`promo-message ${discountRate > 0 ? 'success' : 'error'}`}>
                   {promoMessage}
